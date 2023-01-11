@@ -658,30 +658,106 @@ def day_9(file_name):
         for j in range(len(matrix_to_check[i])):
             if matrix_to_check[i][j] < 9:
                 matrix_to_check[i][j] = 0
-    while sum()
+    temp_i = 0
+    temp_k = 0
     for i in range(len(matrix_to_check)):
+        # if matrix_to_check[i][temp_k] < 9:
+        #     temp_bas += 1
+        #     if matrix_to_check[i+1][temp_k] < 9:
+        #         temp_bas += 1
+        temp_i = i
         for j in range(len(matrix_to_check[i])):
-
-            if matrix_to_check[i][j] == 0:
-                temp_bas += 1
-                matrix_to_check[i][j] = -1
-            elif matrix_to_check[i][j] == 9:
-                break
+            temp_k = j
+            while is_less_nine(matrix_to_check[temp_k][temp_i]) == 1:
+                if matrix_to_check[temp_k][temp_i] < 9:
+                    temp_bas += is_less_nine(matrix_to_check[temp_k][temp_i])
+                    matrix_to_check[temp_k][temp_i] = -1
+                    temp_k += 1
+                elif matrix_to_check[temp_k][temp_i] == 9:
+                    temp_i = i+1
+                    temp_k = j
+            # else:
+            #     temp_k = 0
+            #     temp_i = i+1
 
         if j == 0 and temp_bas > 0:
             temp_basin.append(temp_bas)
             temp_bas = 0
-            break
+            i = temp_i
+
         #
 
     risk_level = sum(each+1 for each in point)
     return risk_level
 
 
+def is_less_nine(number: int):
+    if number < 9:
+        return 1
+    else:
+        return 0
+
+
+def day_10(file_name):
+
+    with open(file_name) as f:
+        lines = f.readlines()
+    f.close()
+    incomplete = True
+    lines = [each.replace('\n', '') for each in lines]
+    line = []
+    opening_brackets = []
+    missing_brackets = [0]*4
+    incomplete_sequence = []
+    wages = [3, 57, 1197, 25137]
+    for each_line in lines:
+        print(len(each_line))
+        # if len(each_line) % 2 == 0:
+        line = list(map(str, each_line))
+        opening_brackets = []
+        incomplete = True
+        # first part of puzzle. - finding corrupted lines.
+        for each in line:
+            if each == '(' or each == '[' or each == '{' or each == '<':
+                opening_brackets.append(each)
+            elif ord(opening_brackets[-1]) + 1 == ord(each):
+                opening_brackets.pop()
+            elif ord(opening_brackets[-1]) + 2 == 62 and ord(each) == 62:
+                opening_brackets.pop()
+            elif ord(opening_brackets[-1]) + 1 == 41 and ord(each) == 41:
+                opening_brackets.pop()
+            elif ord(opening_brackets[-1]) + 2 == 93 and ord(each) == 93:
+                opening_brackets.pop()
+            elif ord(opening_brackets[-1]) + 2 == 125 and ord(each) == 125:
+                opening_brackets.pop()
+            elif each == ")":
+                missing_brackets[0] += 1
+                incomplete = False
+                break
+            elif each == "]":
+                missing_brackets[1] += 1
+                incomplete = False
+                break
+            elif each == "}":
+                missing_brackets[2] += 1
+                incomplete = False
+                break
+            elif each == ">":
+                missing_brackets[3] += 1
+                incomplete = False
+                break
+        if incomplete:
+            incomplete_sequence.append(opening_brackets)
+    reverse_incomplete_sequence = []
+    for each in incomplete_sequence:
+
+        print(line)
+    result = sum([el1*el2 for el1, el2 in zip(missing_brackets, wages)])
+    return result
+
+
 # def find_boundry(list, k: int):
-
-
 if __name__ == "__main__":
-    # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day9Advent calendar.txt"
+    file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
     file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
-    print('result is: {0}'.format(day_9(file_name)))
+    print('result is: {0}'.format(day_10(file_name)))
