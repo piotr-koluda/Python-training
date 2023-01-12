@@ -711,7 +711,7 @@ def day_10(file_name):
     incomplete_sequence = []
     wages = [3, 57, 1197, 25137]
     for each_line in lines:
-        print(len(each_line))
+        # print(len(each_line))
         # if len(each_line) % 2 == 0:
         line = list(map(str, each_line))
         opening_brackets = []
@@ -746,18 +746,40 @@ def day_10(file_name):
                 missing_brackets[3] += 1
                 incomplete = False
                 break
+        # if there is no incorrect bracket it is a incomplete sequence.
         if incomplete:
             incomplete_sequence.append(opening_brackets)
     reverse_incomplete_sequence = []
+    temp_sequence = []
+    total_sum = []
+    # reverse list and sum all values based on given formula
     for each in incomplete_sequence:
-
-        print(line)
-    result = sum([el1*el2 for el1, el2 in zip(missing_brackets, wages)])
+        # temp_sequence = each[::-1]
+        reverse_incomplete_sequence.append(each[::-1])
+    for each in reverse_incomplete_sequence:
+        sum = 0
+        for i in range(len(each)):
+            if each[i] == '{':
+                sum = sum*5 + 3
+                each[i] = sum
+            elif each[i] == '<':
+                sum = sum*5 + 4
+                each[i] = sum
+            elif each[i] == '(':
+                sum = sum*5 + 1
+                each[i] = sum
+            elif each[i] == '[':
+                sum = sum*5 + 2
+                each[i] = sum
+        total_sum.append(max(each))
+    total_sum.sort()
+    result = total_sum[round(len(total_sum)/2)]
+    # result = sum([el1*el2 for el1, el2 in zip(missing_brackets, wages)])
     return result
 
 
 # def find_boundry(list, k: int):
 if __name__ == "__main__":
     file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
-    file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
+    # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
     print('result is: {0}'.format(day_10(file_name)))
