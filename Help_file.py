@@ -778,8 +778,94 @@ def day_10(file_name):
     return result
 
 
+def day_11(file_name, number: int):
+    with open(file_name) as f:
+        lines = f.readlines()
+    f.close
+    energy_increase = [1]*10
+    lines = [list(map(int, each.replace('\n', ''))) for each in lines]
+    # lines = list[map(int, lines)]
+    for k in range(number):
+        for i in range(len(lines)):
+            lines[i] = [el1 + el2 for el1,
+                        el2 in zip(lines[i], energy_increase)]
+
+        exploding_octopus(lines[0], 0, 0, 10, 0)
+        # for l in range(1):
+        #     for i in range(len(lines)):
+        #         for j in range(len(lines[i])):
+        #             if lines[i][j] > 9:
+        #                 if i == 0 and j == 0:  # matrix corner top left
+        #                     lines[i+1][j] += 1
+        #                         if lines[i+1][j] > 9
+        #                     lines[i+1][j+1] += 1
+        #                     lines[i][j+1] += 1
+        #                 # matrix corner top right
+        #                 elif i == 0 and j == len(lines[i]) - 1:
+        #                     lines[i+1][j] += 1
+        #                     lines[i+1][j-1] += 1
+        #                     lines[i][j-1] += 1
+        #                 elif i == len(lines)-1 and j == 0:  # matrix corner bottom left
+        #                     lines[i-1][j] += 1
+        #                     lines[i-1][j+1] += 1
+        #                     lines[i][j+1] += 1
+        #                 elif i == len(lines)-1 and j == 0:  # matrix corner bottom right
+        #                     lines[i-1][j] += 1
+        #                     lines[i-1][j-1] += 1
+        #                     lines[i][j-1] += 1
+        #                 # matrix top line
+        #                 elif i == 0 and 0 < j < len(lines[i]) - 1:
+        #                     lines[i+1][j-1] += 1
+        #                     lines[i+1][j] += 1
+        #                     lines[i+1][j+1] += 1
+        #                     lines[i][j-1] += 1
+        #                     lines[i][j+1] += 1
+        #                 # matrix bottom line
+        #                 elif i == len(lines)-1 and 0 < j < len(lines[i]) - 1:
+        #                     lines[i-1][j-1] += 1
+        #                     lines[i-1][j] += 1
+        #                     lines[i-1][j+1] += 1
+        #                     lines[i][j-1] += 1
+        #                     lines[i][j+1] += 1
+        #                 elif 0 < j < len(lines[i]) - 1:  # inside matrix
+        #                     lines[i-1][j-1] += 1
+        #                     lines[i-1][j] += 1
+        #                     lines[i-1][j+1] += 1
+        #                     lines[i+1][j-1] += 1
+        #                     lines[i+1][j] += 1
+        #                     lines[i+1][j+1] += 1
+        #                     lines[i][j-1] += 1
+        #                     lines[i][j+1] += 1
+        #                 elif j == 0:  # matrix left border
+        #                     lines[i-1][j] += 1
+        #                     lines[i-1][j+1] += 1
+        #                     lines[i+1][j] += 1
+        #                     lines[i+1][j+1] += 1
+        #                     lines[i][j+1] += 1
+        #                 elif j == len(lines[i]) - 1:  # matrix right border
+        #                     lines[i-1][j-1] += 1
+        #                     lines[i-1][j] += 1
+        #                     lines[i][j-1] += 1
+        #                     lines[i][j-1] += 1
+
+        # for i in range(len(lines)):
+        #     for j in range(len(lines[i])):
+        #         if lines[i][j] > 9:
+        #             lines[i][j] = 0
+
+    return 0
+
+
+def exploding_octopus(list, start_i: int, start_j: int, end_i: int, end_j: int):
+
+    if start_i > 0 and start_j > 0:
+        return exploding_octopus(list, start_i - 1, start_j-1, end_i, end_j)
+    else:
+        return exploding_octopus(list, start_i, start_j, end_i, end_j)
+
+
 # def find_boundry(list, k: int):
 if __name__ == "__main__":
-    file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
-    # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
-    print('result is: {0}'.format(day_10(file_name)))
+    # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
+    file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
+    print('result is: {0}'.format(day_11(file_name, 2)))
