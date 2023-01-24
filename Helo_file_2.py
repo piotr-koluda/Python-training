@@ -140,7 +140,41 @@ def day_4_2022(file_name):
     return len_pairs
 
 
+def day_5_2022(file_name):
+    with open(file_name) as f:
+        read_lines = [each.replace('\n', '') for each in f.readlines()]
+    f.close()
+    temp_list = ['']*9
+    temp_list_1 = ['']*9
+    stock_list = []
+    final_list = ''
+    moves_list = [each.replace('move ', '').replace('from ', '').replace(
+        'to ', '').split(' ') for each in read_lines[10:]]
+    for i in range(9):
+        temp_list[i] = list(read_lines[i][1::4])
+    for i in range(9):
+        temp_list_1 = ['']*8
+        for j in range(8):
+            temp_list_1[j] = temp_list[0:8][j][i].replace(' ', '')
+
+        temp_list_1 = list(filter(None, temp_list_1))
+        stock_list.append(temp_list_1[::-1])
+        # stock_list = list(filter('', stock_list))
+
+    for each in moves_list:
+        number_of_moves = each[0]
+        stack_from = each[1]
+        stack_to = each[2]
+        for i in range(int(number_of_moves)):
+            stock_list[int(stack_to) -
+                       1].append(stock_list[int(stack_from) - 1][-1])
+            stock_list[int(stack_from) - 1].pop()
+    for i in range(9):
+        final_list = final_list+stock_list[i][-1]
+    return final_list
+
+
 if __name__ == "__main__":
     # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
     file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
-    print('result is: {0}'.format(day_4_2022(file_name)))
+    print('result is: {0}'.format(day_5_2022(file_name)))
