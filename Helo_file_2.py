@@ -161,14 +161,30 @@ def day_5_2022(file_name):
         stock_list.append(temp_list_1[::-1])
         # stock_list = list(filter('', stock_list))
 
+    # for each in moves_list:
+    #     number_of_moves = each[0]
+    #     stack_from = each[1]
+    #     stack_to = each[2]
+    #     for i in range(int(number_of_moves)):
+    #         stock_list[int(stack_to) -
+    #                    1].append(stock_list[int(stack_from) - 1][-1])
+    #         stock_list[int(stack_from) - 1].pop()
+    # second part of challenge.
+
     for each in moves_list:
         number_of_moves = each[0]
         stack_from = each[1]
         stack_to = each[2]
-        for i in range(int(number_of_moves)):
-            stock_list[int(stack_to) -
-                       1].append(stock_list[int(stack_from) - 1][-1])
-            stock_list[int(stack_from) - 1].pop()
+        temp_list = stock_list[int(stack_from) - 1][-int(number_of_moves):]
+        for each in temp_list:
+            stock_list[int(stack_to) - 1].append(each)
+
+        # leave only elements to indicated position
+        # remove everything after this index.
+
+        stock_list[int(stack_from) - 1] = stock_list[int(stack_from) -
+                                                     1][:len(stock_list[int(stack_from) - 1])-int(number_of_moves)]
+
     for i in range(9):
         final_list = final_list+stock_list[i][-1]
     return final_list
