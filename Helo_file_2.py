@@ -196,16 +196,34 @@ def day_6_2022(file_name):
     f.close()
     # internal variable:
     counter = 0
+    numebr_of_signs_to_chcek = 14
+    list_of_characters = []
     # initialise list of letters
     signs = list(filter(lambda i: (i in read_lines[0]), read_lines[0]))
+    # solution for first part of challenge. It needs to be rebuild to fullfill expectation of second part
+    # for i in range(len(signs) - 4):
 
-    for i in range(len(signs) - 4):
+    #     if (signs[i] != signs[i+1]) and (signs[i] != signs[i+2]) and (signs[i] != signs[i+3]) and (signs[i+1] != signs[i+2]) and (signs[i+1] != signs[i+3]) and (signs[i+2] != signs[i+3]):
+    #         break
+    #     counter += 1
 
-        if (signs[i] != signs[i+1]) and (signs[i] != signs[i+2]) and (signs[i] != signs[i+3]) and (signs[i+1] != signs[i+2]) and (signs[i+1] != signs[i+3]) and (signs[i+2] != signs[i+3]):
+    # Solution for second part of challenge is upgraded version of first part of solution. Changes are quite siginficant:
+    # Added dynamic selection of list to verification
+    # Modified method of searching characters in selected list
+    # Add condition to check how many signs was checked, which indicates if proper sequence was found.
+    for i in range(len(signs) - numebr_of_signs_to_chcek):
+        list_of_characters = signs[counter:counter+numebr_of_signs_to_chcek]
+        checked_signs = 0
+        for each in list_of_characters:
+            if list_of_characters.count(each) > 1:
+                break
+            else:
+                checked_signs += 1
+        if checked_signs == numebr_of_signs_to_chcek:
             break
         counter += 1
 
-    return counter+4
+    return counter+numebr_of_signs_to_chcek
 
 
 if __name__ == "__main__":
