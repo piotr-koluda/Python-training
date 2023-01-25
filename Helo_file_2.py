@@ -140,7 +140,93 @@ def day_4_2022(file_name):
     return len_pairs
 
 
+def day_5_2022(file_name):
+    with open(file_name) as f:
+        read_lines = [each.replace('\n', '') for each in f.readlines()]
+    f.close()
+    temp_list = ['']*9
+    temp_list_1 = ['']*9
+    stock_list = []
+    final_list = ''
+    moves_list = [each.replace('move ', '').replace('from ', '').replace(
+        'to ', '').split(' ') for each in read_lines[10:]]
+    for i in range(9):
+        temp_list[i] = list(read_lines[i][1::4])
+    for i in range(9):
+        temp_list_1 = ['']*8
+        for j in range(8):
+            temp_list_1[j] = temp_list[0:8][j][i].replace(' ', '')
+
+        temp_list_1 = list(filter(None, temp_list_1))
+        stock_list.append(temp_list_1[::-1])
+        # stock_list = list(filter('', stock_list))
+
+    # for each in moves_list:
+    #     number_of_moves = each[0]
+    #     stack_from = each[1]
+    #     stack_to = each[2]
+    #     for i in range(int(number_of_moves)):
+    #         stock_list[int(stack_to) -
+    #                    1].append(stock_list[int(stack_from) - 1][-1])
+    #         stock_list[int(stack_from) - 1].pop()
+    # second part of challenge.
+
+    for each in moves_list:
+        number_of_moves = each[0]
+        stack_from = each[1]
+        stack_to = each[2]
+        temp_list = stock_list[int(stack_from) - 1][-int(number_of_moves):]
+        for each in temp_list:
+            stock_list[int(stack_to) - 1].append(each)
+
+        # leave only elements to indicated position
+        # remove everything after this index.
+
+        stock_list[int(stack_from) - 1] = stock_list[int(stack_from) -
+                                                     1][:len(stock_list[int(stack_from) - 1])-int(number_of_moves)]
+
+    for i in range(9):
+        final_list = final_list+stock_list[i][-1]
+    return final_list
+
+
+def day_6_2022(file_name):
+    with open(file_name) as f:
+        read_lines = [each.replace('\n', '') for each in f.readlines()]
+    f.close()
+    # internal variable:
+    counter = 0
+    numebr_of_signs_to_chcek = 14
+    list_of_characters = []
+    # initialise list of letters
+    signs = list(filter(lambda i: (i in read_lines[0]), read_lines[0]))
+    # solution for first part of challenge. It needs to be rebuild to fullfill expectation of second part
+    # for i in range(len(signs) - 4):
+
+    #     if (signs[i] != signs[i+1]) and (signs[i] != signs[i+2]) and (signs[i] != signs[i+3]) and (signs[i+1] != signs[i+2]) and (signs[i+1] != signs[i+3]) and (signs[i+2] != signs[i+3]):
+    #         break
+    #     counter += 1
+
+    # Solution for second part of challenge is upgraded version of first part of solution. Changes are quite siginficant:
+    # Added dynamic selection of list to verification
+    # Modified method of searching characters in selected list
+    # Add condition to check how many signs was checked, which indicates if proper sequence was found.
+    for i in range(len(signs) - numebr_of_signs_to_chcek):
+        list_of_characters = signs[counter:counter+numebr_of_signs_to_chcek]
+        checked_signs = 0
+        for each in list_of_characters:
+            if list_of_characters.count(each) > 1:
+                break
+            else:
+                checked_signs += 1
+        if checked_signs == numebr_of_signs_to_chcek:
+            break
+        counter += 1
+
+    return counter+numebr_of_signs_to_chcek
+
+
 if __name__ == "__main__":
     # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
     file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
-    print('result is: {0}'.format(day_4_2022(file_name)))
+    print('result is: {0}'.format(day_6_2022(file_name)))
