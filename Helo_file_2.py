@@ -190,7 +190,25 @@ def day_5_2022(file_name):
     return final_list
 
 
+def day_6_2022(file_name):
+    with open(file_name) as f:
+        read_lines = [each.replace('\n', '') for each in f.readlines()]
+    f.close()
+    # internal variable:
+    counter = 0
+    # initialise list of letters
+    signs = list(filter(lambda i: (i in read_lines[0]), read_lines[0]))
+
+    for i in range(len(signs) - 4):
+
+        if (signs[i] != signs[i+1]) and (signs[i] != signs[i+2]) and (signs[i] != signs[i+3]) and (signs[i+1] != signs[i+2]) and (signs[i+1] != signs[i+3]) and (signs[i+2] != signs[i+3]):
+            break
+        counter += 1
+
+    return counter+4
+
+
 if __name__ == "__main__":
     # file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Day10Advent calendar.txt"
     file_name = "C:\\Users\\PiotrKoluda\Desktop\\Calendar of code\\Temp.txt"
-    print('result is: {0}'.format(day_5_2022(file_name)))
+    print('result is: {0}'.format(day_6_2022(file_name)))
